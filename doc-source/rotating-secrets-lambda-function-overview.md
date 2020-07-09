@@ -32,7 +32,7 @@ The functionality built into the Lambda rotation function breaks down into disti
 
 In this release of Secrets Manager, Secrets Manager calls the steps automatically in sequence\. As soon as one step ends, Secrets Manager immediately calls the Lambda function to invoke the next step\. 
 
-When you specify a secret for one of the supported Amazon RDS databases, Secrets Manager uses a standard Lambda function to rotate the secret\. Secrets Manager provides the Lambda function , but you can modify it the Lambda function to meet your organizational specific rotation requirements\.
+When you specify a secret for one of the supported Amazon RDS databases, Secrets Manager uses a standard Lambda function to rotate the secret\. Secrets Manager provides the Lambda function , but you can modify the Lambda function to meet your organizational specific rotation requirements\.
 
 ### The createSecret Step<a name="phase-makesecret"></a>
 
@@ -56,6 +56,6 @@ This step of the Lambda function verifies the `AWSPENDING` version of the secret
 
 ### The finishSecret Step<a name="phase-finishsecret"></a>
 
-This step performs any resource\-specific finalization on this version of the secret\. When complete, the last step requires the Lambda function to move the label `AWSCURRENT` from the current version to this new version of the secret so your clients start using it\. You can also remove the `AWSPENDING` label, but technically required\. At this point, the basic rotation completes\. All of your clients use the new version of the secret\. The old version receives the `AWSPREVIOUS` staging label, and available for recovery as the last known good version of the secret, if needed\. The old version with the `AWSPREVIOUS` staging label no longer has any staging labels attached, so Secrets Manager considers the old version deprecated and subject to deletion\.
+This step performs any resource\-specific finalization on this version of the secret\. When complete, the last step requires the Lambda function to move the label `AWSCURRENT` from the current version to this new version of the secret so your clients start using it\. You can also remove the `AWSPENDING` label, but this is not technically required\. At this point, the basic rotation completes\. All of your clients use the new version of the secret\. The old version receives the `AWSPREVIOUS` staging label, and available for recovery as the last known good version of the secret, if needed\. The old version with the `AWSPREVIOUS` staging label no longer has any staging labels attached, so Secrets Manager considers the old version deprecated and subject to deletion\.
 
 ![\[Image NOT FOUND\]](http://docs.aws.amazon.com/secretsmanager/latest/userguide/images/Rotation%20Step%204.png)
